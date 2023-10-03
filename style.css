@@ -34,23 +34,21 @@ body {
 	font-weight: lighter;
 }
 
-.task {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+.new-task {
 	background: #e6e6e6;
 	border-radius: 30px;
-	padding-left: 20px;
-	margin-bottom: 25px;
+	padding-left: 13px;
+	margin-bottom: 20px;
+	position: relative;
 }
 
 input {
-	flex: 1;
 	border: none;
 	outline: none;
 	background: transparent;
-	padding: 10px;
+	padding: 14px;
 	font-size: 15px;
+	width: 362px;
 }
 
 ::placeholder {
@@ -59,55 +57,83 @@ input {
 
 button {
 	border: none;
-	/* margin: 0 20px; */
 	padding: 10px 40px;
 	font-size: 21px;
 	background: darkgray;
 	cursor: pointer;
 	opacity: 0.5;
 	border-radius: 40px;
+	position: absolute;
+	right: 0;
 }
 
 button:hover {
 	opacity: 0.8;
 }
 
-ul li {
+.task-container {
 	list-style: none;
 	font-size: 15px;
-	padding: 12px 8px 12px 28px;
+	padding: 10px 8px 12px 26px;
 	user-select: none;
 	cursor: pointer;
 	position: relative;
 }
 
-ul li::before {
-	content: '\f111';
-	font: var(--fa-font-regular);
+.task-container i {
 	color: darkgray;
-	font-size: 18px;
+	font-size: 20px;
 }
 
-ul li::after {
-	content: '\f2ed';
-	font: var(--fa-font-regular);
-	color: red;
-	font-size: 18px;
+.list {
+	display: flex;
+	align-items: center;
+}
+
+.text {
+	padding-left: 5px;
+}
+
+.trash {
+	font-size: 20px;
 	position: absolute;
-	margin: 0 40px;
-	/* padding: 5px 40px; */
-	/* border-radius: 40px; */
-	/* background: darkgray; */
+	margin: 0 20px 0 0;
 	right: 0;
 }
 
-ul li.task-checked span {
-	text-decoration: line-through;
+.trash-color:hover {
+	color: red;
 }
 
-ul li.task-checked::before {
-	content: '\f058';
-	font: var(--fa-font-solid);
+.edit {
+	font-size: 20px;
+	position: absolute;
+	margin: 0 55px 0 0;
+	right: 0;
 	color: green;
-	font-size: 18px;
+}
+
+.edit-color:hover {
+	color: green;
+}
+
+.circle-check {
+	font-size: 20px;
+}
+
+.check-color {
+	color: green;
+}
+
+.circle {
+	font-size: 20px;
+}
+
+.circle-color:hover {
+	color: green;
+}
+
+.task-done {
+	text-decoration: line-through;
+	color: black;
 }
