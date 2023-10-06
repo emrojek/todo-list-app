@@ -92,6 +92,8 @@ button:hover {
 
 .text {
 	padding-left: 5px;
+	max-width: 76%;
+	overflow: hidden;
 }
 
 .trash {
@@ -127,10 +129,6 @@ button:hover {
 
 .circle {
 	font-size: 20px;
-}
-
-.circle-color:hover {
-	color: green;
 }
 
 .task-done {
