@@ -18,6 +18,11 @@ todoList.addEventListener('click', function (e) {
 		const todoKey = Number(e.target.parentElement.dataset.key);
 		checkTodo(todoKey);
 	}
+
+	if (e.target.classList.contains('trash-color')) {
+		const todoKey = Number(e.target.parentElement.dataset.key);
+		deleteTodo(todoKey);
+	}
 });
 
 // Functions
@@ -38,9 +43,15 @@ const newTodo = () => {
 
 	const html = `
 		<div class="list" data-key="${todo.id}">
-			<span class="circle data-key="${todo.id}"><i class="circle-color fa-regular fa-circle"></i></span>
-			<span class="trash data-key="${todo.id}"><i class="trash-color fa-solid fa-trash-can"></i></span>
-			<span class="edit data-key="${todo.id}"><i class="edit-color fa-regular fa-pen-to-square"></i></span>
+			<span class="circle" data-key="${todo.id}">
+				<i class="circle-color fa-regular fa-circle"></i>
+			</span>
+			<span class="trash" data-key="${todo.id}">
+				<i class="trash-color fa-solid fa-trash-can"></i>
+			</span>
+			<span class="edit" data-key="${todo.id}">
+				<i class="edit-color fa-regular fa-pen-to-square"></i>
+			</span>
 			<span class="text">${todo.text}</span>
 		</div>
 	`;
@@ -58,11 +69,19 @@ const checkTodo = (key) => {
 	todos[index].checked = !todos[index].checked;
 
 	if (todos[index].checked) {
-		item.classList.toggle('task-done');
+		item.classList.add('task-done');
 		iconCheck.innerHTML =
 			'<i class="check-color fa-solid fa-circle-check"></i>';
 	} else {
-		item.classList.toggle('task-done');
+		item.classList.remove('task-done');
 		iconCheck.innerHTML = '<i class="circle-color fa-regular fa-circle"></i>';
 	}
+};
+
+const deleteTodo = (key) => {
+	const deleteIndex = todos.findIndex(
+		(deleteItem) => deleteItem.id === Number(key)
+	);
+	const deleteItem = document.querySelector(`[data-key='${key}']`);
+	deleteItem.remove(deleteIndex);
 };
