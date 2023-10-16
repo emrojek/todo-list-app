@@ -42,7 +42,7 @@ body {
 	position: relative;
 }
 
-input {
+#task-row {
 	border: none;
 	outline: none;
 	background: transparent;
@@ -90,10 +90,12 @@ button:hover {
 	align-items: center;
 }
 
-.text {
+#todo-text {
 	padding-left: 5px;
 	max-width: 76%;
 	overflow: hidden;
+	border: none;
+	outline: none;
 }
 
 .trash {
@@ -112,10 +114,18 @@ button:hover {
 	position: absolute;
 	margin: 0 55px 0 0;
 	right: 0;
-	color: green;
 }
 
-.edit-color:hover {
+.save {
+	font-size: 20px;
+	position: absolute;
+	margin: 0 55px 0 0;
+	right: 0;
+	visibility: hidden;
+}
+
+.edit-color:hover,
+.save-color:hover {
 	color: green;
 }
 
@@ -134,4 +144,8 @@ button:hover {
 .task-done {
 	text-decoration: line-through;
 	color: black;
+}
+
+.hidden {
+	display: none;
 }
