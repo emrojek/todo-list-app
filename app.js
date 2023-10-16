@@ -14,14 +14,27 @@ formSubmit.addEventListener('submit', function (e) {
 });
 
 todoList.addEventListener('click', function (e) {
-	if (e.target.classList.contains('text')) {
-		const todoKey = Number(e.target.parentElement.dataset.key);
-		checkTodo(todoKey);
+	if (
+		e.target.classList.contains('circle-color') ||
+		e.target.classList.contains('check-color')
+	) {
+		const keyCheck = Number(e.target.parentElement.dataset.key);
+		checkTodo(keyCheck);
 	}
 
 	if (e.target.classList.contains('trash-color')) {
-		const todoKey = Number(e.target.parentElement.dataset.key);
-		deleteTodo(todoKey);
+		const keyDelete = Number(e.target.parentElement.dataset.key);
+		deleteTodo(keyDelete);
+	}
+
+	if (e.target.classList.contains('edit-color')) {
+		const keyEdit = Number(e.target.parentElement.dataset.key);
+		editTodo(keyEdit);
+	}
+
+	if (e.target.classList.contains('save-color')) {
+		const keySave = Number(e.target.parentElement.dataset.key);
+		saveTodo(keySave);
 	}
 });
 
@@ -52,7 +65,10 @@ const newTodo = () => {
 			<span class="edit" data-key="${todo.id}">
 				<i class="edit-color fa-regular fa-pen-to-square"></i>
 			</span>
-			<span class="text">${todo.text}</span>
+			<span class="save" data-key="${todo.id}">
+				<i class="save-color fa-solid fa-check"></i>
+			</span>
+			<input id="todo-text" name="todo-text" type="text" data-key="${todo.id}" value="${todo.text}" readonly />
 		</div>
 	`;
 
@@ -62,13 +78,13 @@ const newTodo = () => {
 };
 
 const checkTodo = (key) => {
-	const index = todos.findIndex((item) => item.id === Number(key));
+	const indexCheck = todos.findIndex((item) => item.id === Number(key));
 	const item = document.querySelector(`[data-key='${key}']`);
-	const iconCheck = document.querySelector(`[data-key='${key}'] .circle`);
+	const iconCheck = document.querySelector(`span[data-key='${key}']`);
 
-	todos[index].checked = !todos[index].checked;
+	todos[indexCheck].checked = !todos[indexCheck].checked;
 
-	if (todos[index].checked) {
+	if (todos[indexCheck].checked) {
 		item.classList.add('task-done');
 		iconCheck.innerHTML =
 			'<i class="check-color fa-solid fa-circle-check"></i>';
@@ -79,9 +95,30 @@ const checkTodo = (key) => {
 };
 
 const deleteTodo = (key) => {
-	const deleteIndex = todos.findIndex(
+	const indexDelete = todos.findIndex(
 		(deleteItem) => deleteItem.id === Number(key)
 	);
 	const deleteItem = document.querySelector(`[data-key='${key}']`);
-	deleteItem.remove(deleteIndex);
+	deleteItem.remove(indexDelete);
+};
+
+const editTodo = (key) => {
+	const todoEdit = document.querySelector(`input[data-key='${key}']`);
+	const editBtn = document.querySelector(`.edit[data-key='${key}']`);
+	const saveBtn = document.querySelector(`.save[data-key='${key}']`);
+	editBtn.style.visibility = 'hidden';
+	saveBtn.style.visibility = 'visible';
+	todoEdit.removeAttribute('readonly');
+	todoEdit.select();
+	todoEdit.focus();
+};
+
+const saveTodo = (key) => {
+	const todoSave = document.querySelector(`input[data-key='${key}']`);
+	const editBtn = document.querySelector(`.edit[data-key='${key}']`);
+	const saveBtn = document.querySelector(`.save[data-key='${key}']`);
+	editBtn.style.visibility = 'visible';
+	saveBtn.style.visibility = 'hidden';
+	todoSave.setAttribute('readonly', 'readonly');
+	todoSave.blur();
 };
