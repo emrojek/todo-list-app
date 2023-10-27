@@ -9,6 +9,44 @@ body {
 	background-color: #e6e6e6;
 }
 
+button {
+	border: none;
+	padding: 10px 40px;
+	font-size: 21px;
+	background: darkgray;
+	cursor: pointer;
+	opacity: 0.5;
+	border-radius: 40px;
+	position: absolute;
+	right: 0;
+}
+
+button:hover {
+	opacity: 0.8;
+}
+
+#task-row {
+	border: none;
+	outline: none;
+	background: transparent;
+	padding: 14px;
+	font-size: 15px;
+	width: 362px;
+}
+
+#todo-text {
+	padding-left: 5px;
+	max-width: 75%;
+	overflow: hidden;
+	border: none;
+	outline: none;
+	flex: 1;
+}
+
+::placeholder {
+	opacity: 0.6;
+}
+
 .container {
 	width: 100%;
 	min-height: 100vh;
@@ -42,35 +80,6 @@ body {
 	position: relative;
 }
 
-#task-row {
-	border: none;
-	outline: none;
-	background: transparent;
-	padding: 14px;
-	font-size: 15px;
-	width: 362px;
-}
-
-::placeholder {
-	opacity: 0.6;
-}
-
-button {
-	border: none;
-	padding: 10px 40px;
-	font-size: 21px;
-	background: darkgray;
-	cursor: pointer;
-	opacity: 0.5;
-	border-radius: 40px;
-	position: absolute;
-	right: 0;
-}
-
-button:hover {
-	opacity: 0.8;
-}
-
 .task-container {
 	list-style: none;
 	font-size: 15px;
@@ -90,14 +99,6 @@ button:hover {
 	align-items: center;
 }
 
-#todo-text {
-	padding-left: 5px;
-	max-width: 76%;
-	overflow: hidden;
-	border: none;
-	outline: none;
-}
-
 .trash {
 	font-size: 20px;
 	position: absolute;
@@ -106,7 +107,7 @@ button:hover {
 }
 
 .trash-color:hover {
-	color: red;
+	color: orangered;
 }
 
 .edit {
@@ -121,20 +122,20 @@ button:hover {
 	position: absolute;
 	margin: 0 55px 0 0;
 	right: 0;
-	visibility: hidden;
 }
 
 .edit-color:hover,
-.save-color:hover {
-	color: green;
+.save-color:hover,
+.circle-color:hover {
+	color: #009900;
 }
 
 .circle-check {
 	font-size: 20px;
 }
 
-.check-color {
-	color: green;
+i.check-color {
+	color: #009900;
 }
 
 .circle {
