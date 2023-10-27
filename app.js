@@ -5,12 +5,15 @@ const formSubmit = document.getElementById('todo-form');
 const formInput = document.getElementById('task-row');
 const todoList = document.querySelector('.task-container');
 
-let todos = [];
+// Todo-list
+let todos = JSON.parse(localStorage.getItem('todo')) || [];
 
 // Listeners
 formSubmit.addEventListener('submit', function (e) {
 	e.preventDefault();
 	newTodo();
+	renderTodo();
+	localStorage.setItem('todo', JSON.stringify(todos));
 });
 
 todoList.addEventListener('click', function (e) {
@@ -39,11 +42,16 @@ todoList.addEventListener('click', function (e) {
 });
 
 // Functions
+const setTodo = (todos) => localStorage.setItem('todo', JSON.stringify(todos));
+
+const getTodo = () => JSON.parse(localStorage.getItem('todo')) || [];
+
 const newTodo = () => {
 	const todo = {
 		text: formInput.value,
 		checked: false,
 		id: Date.now(),
+		edited: false,
 	};
 
 	if (formInput.value === '' || formInput.value.trim() === '') {
@@ -54,71 +62,84 @@ const newTodo = () => {
 
 	todos.push(todo);
 
-	const html = `
-		<div class="list" data-key="${todo.id}">
-			<span class="circle" data-key="${todo.id}">
-				<i class="circle-color fa-regular fa-circle"></i>
-			</span>
-			<span class="trash" data-key="${todo.id}">
-				<i class="trash-color fa-solid fa-trash-can"></i>
-			</span>
-			<span class="edit" data-key="${todo.id}">
-				<i class="edit-color fa-regular fa-pen-to-square"></i>
-			</span>
-			<span class="save" data-key="${todo.id}">
-				<i class="save-color fa-solid fa-check"></i>
-			</span>
-			<input id="todo-text" name="todo-text" type="text" data-key="${todo.id}" value="${todo.text}" readonly />
-		</div>
-	`;
-
-	todoList.insertAdjacentHTML('beforeend', html);
 	formInput.value = '';
 	formInput.placeholder = 'What to do?';
+	setTodo(todos);
+	renderTodo();
+};
+
+const html = (todos) =>
+	`
+	<div class="list${todos.checked ? ' task-done' : ''}" data-key="${todos.id}">
+		<span class="circle" data-key="${todos.id}">
+			<i class="${
+				todos.checked
+					? 'check-color fa-solid fa-circle-check'
+					: 'circle-color fa-regular fa-circle'
+			}"></i>
+		</span>
+		<span class="trash" data-key="${todos.id}">
+			<i class="trash-color fa-solid fa-trash-can"></i>
+		</span>
+		<span class=${todos.checked ? 'save' : 'edit'} data-key="${todos.id}">
+			<i class="${
+				todos.edited
+					? 'save-color fa-solid fa-check'
+					: 'edit-color fa-regular fa-pen-to-square'
+			}"></i>
+		</span>
+		<input id="todo-text" name="todo-text" type="text" data-key="${
+			todos.id
+		}" value="${todos.text}" ${todos.edited ? '' : 'readonly="readonly"'}" />
+	</div>
+	`;
+
+const renderTodo = () => {
+	todos = getTodo();
+	todoList.innerHTML = '';
+	todos.forEach((todos) => {
+		todoList.insertAdjacentHTML('beforeend', html(todos));
+	});
 };
 
 const checkTodo = (key) => {
 	const indexCheck = todos.findIndex((item) => item.id === Number(key));
-	const item = document.querySelector(`[data-key='${key}']`);
-	const iconCheck = document.querySelector(`span[data-key='${key}']`);
-
+	todos = getTodo();
 	todos[indexCheck].checked = !todos[indexCheck].checked;
-
-	if (todos[indexCheck].checked) {
-		item.classList.add('task-done');
-		iconCheck.innerHTML =
-			'<i class="check-color fa-solid fa-circle-check"></i>';
-	} else {
-		item.classList.remove('task-done');
-		iconCheck.innerHTML = '<i class="circle-color fa-regular fa-circle"></i>';
-	}
+	setTodo(todos);
+	renderTodo();
 };
 
 const deleteTodo = (key) => {
 	const indexDelete = todos.findIndex(
 		(deleteItem) => deleteItem.id === Number(key)
 	);
-	const deleteItem = document.querySelector(`[data-key='${key}']`);
-	deleteItem.remove(indexDelete);
+	todos = getTodo();
+	todos.splice(indexDelete, 1);
+	setTodo(todos);
+	renderTodo();
 };
 
 const editTodo = (key) => {
+	todos = getTodo();
+	const indexEdit = todos.findIndex((editItem) => editItem.id === Number(key));
+	todos[indexEdit].edited = !todos[indexEdit].edited;
+	setTodo(todos);
+	renderTodo();
 	const todoEdit = document.querySelector(`input[data-key='${key}']`);
-	const editBtn = document.querySelector(`.edit[data-key='${key}']`);
-	const saveBtn = document.querySelector(`.save[data-key='${key}']`);
-	editBtn.style.visibility = 'hidden';
-	saveBtn.style.visibility = 'visible';
-	todoEdit.removeAttribute('readonly');
-	todoEdit.select();
 	todoEdit.focus();
+	todoEdit.select();
 };
 
 const saveTodo = (key) => {
-	const todoSave = document.querySelector(`input[data-key='${key}']`);
-	const editBtn = document.querySelector(`.edit[data-key='${key}']`);
-	const saveBtn = document.querySelector(`.save[data-key='${key}']`);
-	editBtn.style.visibility = 'visible';
-	saveBtn.style.visibility = 'hidden';
-	todoSave.setAttribute('readonly', 'readonly');
-	todoSave.blur();
+	todos = getTodo();
+	const indexSave = todos.findIndex((saveItem) => saveItem.id === Number(key));
+	todos[indexSave].edited = !todos[indexSave].edited;
+	todos[indexSave].text = document.querySelector(
+		`input[data-key='${key}']`
+	).value;
+	setTodo(todos);
+	renderTodo();
 };
+
+renderTodo();
