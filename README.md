@@ -10,4 +10,4 @@ This is a simple `Todo List App` project written in `Vanilla JS`. The applicatio
 
 > The main goal of this project was to learn the basics of JavaScript and DOM operations.
 
-> The CSS part of this project was inspired by a few other `Todo Apps` tutorials, mostly by [TodoMVC](https://todomvc.com/examples/vanillajs/).
+> The CSS part of this project was inspired by a few other `Todo App` tutorials, mostly by [TodoMVC](https://todomvc.com/examples/javascript-es6/dist/).
